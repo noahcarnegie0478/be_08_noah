@@ -3,6 +3,7 @@ package com.longg.dto;
 public class CartItem extends Product {
 
 	public int quantity;
+	public String userName;
 
 	public CartItem() {
 	}
@@ -11,9 +12,12 @@ public class CartItem extends Product {
 		super(name, price);
 	}
 
-	public CartItem(Product product, int quantity) {
+	public CartItem(String userName,Product product, int quantity) {
+		this.userName = userName;
 		this.name = product.name;
 		this.price = product.price;
 		this.quantity = quantity;
+		
 	}
+	
 }

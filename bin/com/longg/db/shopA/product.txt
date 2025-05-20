@@ -1,0 +1,4 @@
+name,price
+burger, 10
+pizza, 6
+tan, 1 

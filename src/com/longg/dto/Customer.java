@@ -4,6 +4,7 @@ public class Customer {
 
 	public String id;
 	public String password;
+	public Cart cart ;
 
 	public Customer() {
 		// TODO Auto-generated constructor stub

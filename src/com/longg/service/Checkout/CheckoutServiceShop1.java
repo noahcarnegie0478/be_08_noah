@@ -9,21 +9,23 @@ import com.longg.dto.Cart;
 import com.longg.env.EnvironmentService;
 import com.longg.service.EmailService;
 import com.longg.service.ShoppingCartService;
+import com.longg.service.interfaces.SendEmail;
 
-public class CheckoutServiceShop1 extends CheckoutService {
+public class CheckoutServiceShop1 extends CheckoutService implements SendEmail {
 	
-	
-//	@Override
-//	public void handleCheckout() {
-//		// TODO Auto-generated method stub
-//		
-//	}
+
 
 	@Override
 	public void handleCheckout(Cart cart) {
 		// TODO Auto-generated method stub
 		total = ShoppingCartService.showCart(cart);
 		System.out.println("Total of your cart is: " + total);
+		sendEmail();
+		
+		
+	}
+
+	public void sendEmail() {
 		EmailService emailService = new EmailService();
 		String checkoutDetail = "User:" + EnvironmentService.sessionCustomer.id + "has purcharsed $" + total + " at "+ LocalDateTime.now();
 		try {
@@ -35,7 +37,5 @@ public class CheckoutServiceShop1 extends CheckoutService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-
 }

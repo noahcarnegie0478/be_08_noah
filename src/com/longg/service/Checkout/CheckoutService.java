@@ -20,14 +20,7 @@ public abstract class CheckoutService {
 		}
 		
 	}
-	// Shop 2 checkout sẽ print "total" ra console log
-	// show het tat ca cac mon hang trong cart ra, 
-	//sau do cong tat ca cac gia tri mon hang lai va tinh total // cartService
 
-	
-	
-	
-	// Shop 3 checkout sẽ log lại thông tin checkout (userid - total - checkout time) vào 1 file log dc lưu ở location bất kỳ
 	
 
 }

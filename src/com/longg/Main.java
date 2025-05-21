@@ -7,14 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.longg.dto.Cart;
-import com.longg.dto.CartItem;
+
 import com.longg.dto.Product;
 import com.longg.dto.Shop;
 import com.longg.env.EnvironmentService;
-import com.longg.service.AuthenService;
-import com.longg.service.ProductService;
 import com.longg.service.ShoppingCartService;
+import com.longg.service.Authenservices.AuthenService;
+import com.longg.service.Checkout.CheckoutService;
 
 public class Main {
 
@@ -23,13 +22,17 @@ public class Main {
 	private static final int VIEW_CART_OPTION_ON_MENU = 0;
 
 	private static ShoppingCartService cartService = new ShoppingCartService();
-	private static AuthenService authenService = new AuthenService();
+	private static AuthenService authenService = null;
+	static CheckoutService checkoutService = null;
 	public static Shop shop = new Shop();
+	
 	public static void main(String[] args) {
 		
 
 		boolean isLoggedin;
 		selectShop();
+		authenService = AuthenService.getAuthen(shop);
+		checkoutService = checkoutService.getCheckout(shop);
 
 		do {
 			isLoggedin = doLogin();
@@ -43,7 +46,8 @@ public class Main {
 			scan.nextLine();
 
 			if (option == VIEW_CART_OPTION_ON_MENU) {
-				cartService.showCart(EnvironmentService.currentCart);
+//				cartService.showCart(EnvironmentService.currentCart);
+				checkoutService.handleCheckout(EnvironmentService.currentCart);
 			} else {
 				try {
 					doAddProductToCart(option);
@@ -78,9 +82,12 @@ public class Main {
 		System.out.println("Enter An Option: ");
 		int option = scan.nextInt();
 		scan.nextLine();
-		shop = shops.get(option -  1);
-		System.out.println(shop.name);
+		System.out.println("Selected ShopOption: " + shops.get(option - 1).dbPath);
 		
+		
+	shop = shops.get(option -  1);
+		
+		System.out.println(EnvironmentService.CUSTOMER_FILE_PATH);		
 	}
 
 
@@ -96,9 +103,8 @@ public class Main {
 		if (isLoggedin) {
 			EnvironmentService.currentCart = cartService.getAllCartsOfCurrentUser();
 			System.out.println(EnvironmentService.sessionCustomer.id);
-//			if (EnvironmentService.currentCart.items.size() != 0) {
-//				System.out.println("its has been added");
-//			}
+
+
 		}
 		return isLoggedin;
 	}

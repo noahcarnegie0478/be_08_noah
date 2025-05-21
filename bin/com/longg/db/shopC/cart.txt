@@ -4,4 +4,5 @@ bcd,pizza,6,1
 abc,tan,1,2
 abc,pizza,6.0,2
 abc,tan,1.0,2
+abc,burger,10.0,2
 abc,pizza,6.0,2

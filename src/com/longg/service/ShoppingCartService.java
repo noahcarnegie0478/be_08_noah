@@ -18,36 +18,20 @@ import com.longg.env.EnvironmentService;
 public class ShoppingCartService {
 
 	public void addToCart(Cart cart, Product product, int quantity) throws IOException {	
-		String cartToDB = EnvironmentService.sessionCustomer.id + "," + product.name + "," + product.price + "," + quantity;	 
-		 FileWriter fileWriter = new FileWriter(EnvironmentService.CART_FILE_PATH, true);
-		 BufferedWriter writer = new BufferedWriter(fileWriter);
-		 writer.newLine();
-		 writer.write(cartToDB);
-		 writer.close();
-		 fileWriter.close();
+		String cartToDB = EnvironmentService.sessionCustomer.id + "," + product.name + "," + product.price + "," + quantity;	
+		TextService textService = new TextService();
+		textService.saveInFor(cartToDB,EnvironmentService.CART_FILE_PATH );
+				
+//		 FileWriter fileWriter = new FileWriter(EnvironmentService.CART_FILE_PATH, true);
+//		 BufferedWriter writer = new BufferedWriter(fileWriter);
+//		 writer.newLine();
+//		 writer.write(cartToDB);
+//		 writer.close();
+//		 fileWriter.close();
 		 EnvironmentService.currentCart = getAllCartsOfCurrentUser();
 	}
 	
 	
-
-	private CartItem findProduct(Cart cart, Product product) {
-		for (CartItem item : cart.items) {
-			if (item.name.equals(product.name)) {
-				return item;
-			}
-		}
-		return null;
-	}
-
-	public void showCart(Cart cart) {
-		if (cart.items.size() == 0) {
-			System.out.println("Your cart is empty");
-			return;
-		}
-		for (CartItem i : cart.items) {
-			System.out.println(i.name + " = " + i.price + ". quantity = " + i.quantity );
-		}
-	}
 	
 	public Cart getAllCartsOfCurrentUser() {		
 		try {
@@ -71,6 +55,20 @@ public class ShoppingCartService {
 		return null;
 		
 	}
+	public static int showCart(Cart cart) {
+		int total = 0;
+		if (cart.items.size() == 0) {
+			System.out.println("Your cart is empty");
+			return 0;
+		}
+		for (CartItem i : cart.items) {
+			total += (i.quantity * i.price);
+			
+			System.out.println(i.name + " = " + i.price + ". quantity = " + i.quantity );
+			
+		}
+		return total;
+	}
 
 	
 	private CartItem readRow(String row) {
@@ -82,7 +80,7 @@ public class ShoppingCartService {
 		String quantity = rowScanner.next();
 		rowScanner.close();
 		if (EnvironmentService.sessionCustomer.id.equals(userName) ) {
-			System.out.println("They got here!");
+			
 			return new CartItem(userName,new Product(productName,Double.parseDouble(price)),Integer.parseInt(quantity));
 		}
 		return null;

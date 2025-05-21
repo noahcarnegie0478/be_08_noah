@@ -1,3 +1,4 @@
-name, price
-sun flower, 5
-roses, 15
+name,price
+burger, 10
+pizza, 6
+tan, 1 
